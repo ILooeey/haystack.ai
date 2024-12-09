@@ -1,2 +1,2 @@
-this is LLM using open-ai generator with haystack
-to install it just using pip install haystack-ai or farm-haystack but better using haystack-ai!
+This repository provides a framework for integrating Large Language Models (LLMs) using OpenAI's generator with Haystack for document retrieval, question answering, and other advanced NLP tasks. By combining the power of Haystack’s retrieval-augmented generation capabilities and OpenAI's state-of-the-art LLM, this project allows users to build highly scalable and efficient systems for extracting information from large collections of documents.
+
