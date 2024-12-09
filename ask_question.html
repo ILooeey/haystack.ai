@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haystack</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            /* Background halaman */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 600px;
+            height: 80vh;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-box {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding-right: 5px;
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .user-message {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            margin-left: auto;
+            position: relative;
+            font-size: 14px;
+        }
+
+        /* Bubble untuk pesan sistem */
+        .system-message {
+            background-color: #f1f1f1;
+            color: #333;
+            padding: 12px 18px;
+            border-radius: 20px;
+            max-width: 80%;
+            margin-right: auto;
+            font-size: 14px;
+        }
+
+        .chat-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 10px;
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .input-field {
+            width: 85%;
+            padding: 10px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .submit-button {
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+        }
+
+        .submit-button i {
+            font-size: 20px;
+        }
+
+        .chat-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background-color: #888;
+            border-radius: 10px;
+        }
+
+        .chat-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                width: 100%;
+                max-width: 90%;
+                height: 400px;
+            }
+
+            .input-field {
+                width: 75%;
+            }
+
+            .submit-button {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="chat-box">
+            {% for message in chat_history %}
+            {% if message.role == 'user' %}
+            <div class="chat-message user-message">
+                <p>{{ message.message }}</p>
+            </div>
+            {% elif message.role == 'system' %}
+            <div class="chat-message system-message">
+                <p>{{ message.message }}</p>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <div class="chat-footer">
+            <form method="POST" style="width: 100%; display: flex; align-items: center;">
+                <input type="text" name="question" id="question" class="input-field" placeholder="Tanyakan sesuatu..."
+                    required>
+                <button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i></button>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
