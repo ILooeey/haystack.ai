@@ -10,7 +10,6 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
-            /* Background halaman */
             margin: 0;
             padding: 0;
             display: flex;
@@ -55,7 +54,6 @@
             font-size: 14px;
         }
 
-        /* Bubble untuk pesan sistem */
         .system-message {
             background-color: #f1f1f1;
             color: #333;
@@ -136,7 +134,7 @@
 <body>
 
     <div class="chat-container">
-        <div class="chat-box">
+        <div class="chat-box" id="chatBox">
             {% for message in chat_history %}
             {% if message.role == 'user' %}
             <div class="chat-message user-message">
@@ -151,13 +149,55 @@
         </div>
 
         <div class="chat-footer">
-            <form method="POST" style="width: 100%; display: flex; align-items: center;">
-                <input type="text" name="question" id="question" class="input-field" placeholder="Tanyakan sesuatu..."
+            <form id="chatForm" method="POST" style="width: 100%; display: flex; align-items: center;">
+                <input type="text" id="question" name="question" class="input-field" placeholder="Tanyakan sesuatu..."
                     required>
                 <button type="submit" class="submit-button"><i class="fas fa-paper-plane"></i></button>
             </form>
         </div>
     </div>
+
+    <script>
+        const chatForm = document.getElementById('chatForm');
+        const questionInput = document.getElementById('question');
+
+        function addMessage(message, sender) {
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('chat-message', sender === 'user' ? 'user-message' : 'system-message');
+            messageElement.innerHTML = `<p>${message}</p>`;
+            document.getElementById('chatBox').appendChild(messageElement);
+            document.getElementById('chatBox').scrollTop = document.getElementById('chatBox').scrollHeight;
+        }
+
+        chatForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const message = questionInput.value.trim();
+
+            if (message) {
+                addMessage(message, 'user');
+                questionInput.value = '';
+
+                try {
+                    const response = await fetch('/ask_question', {
+                        method: 'POST',
+                        body: new URLSearchParams({ question: message }),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        addMessage(data.answer, 'system');
+                    } else {
+                        addMessage('Terjadi kesalahan. Coba lagi.', 'system');
+                    }
+                } catch (error) {
+                    addMessage('Terjadi kesalahan koneksi. Coba lagi.', 'system');
+                }
+            }
+        });
+    </script>
 
 </body>
 
