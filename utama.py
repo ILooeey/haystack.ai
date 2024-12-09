@@ -11,23 +11,20 @@ import secrets
 import uuid
 import time
 
-# Membuat ID unik dengan UUID
 document_id = str(uuid.uuid4())
 
-# Inisialisasi aplikasi Flask
 app = Flask(__name__, template_folder='E:/templates')
 app.secret_key = secrets.token_hex(16)
 
-# Menyiapkan folder upload file
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Inisialisasi komponen Haystack
+# Haystack
 document_store = InMemoryDocumentStore()
 retriever = InMemoryBM25Retriever(document_store=document_store)
 
-# Template untuk prompt di OpenAI
+# RAG Propmt
 prompt_template = """
 Given these documents, answer the question.
 Documents:
