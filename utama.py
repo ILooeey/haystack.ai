@@ -33,7 +33,7 @@ Question: {{question}}
 Answer:
 """
 prompt_builder = PromptBuilder(template=prompt_template)
-llm = OpenAIGenerator(api_key=Secret.from_token("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"))
+llm = OpenAIGenerator(api_key=Secret.from_token("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"))
 
 # Pipeline RAG
 rag_pipeline = Pipeline()
